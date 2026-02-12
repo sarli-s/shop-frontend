@@ -4,7 +4,7 @@ import { UserDTO } from '../models/user.model';
 @Injectable({
   providedIn: 'root'
 })
-export class UserServiceService {
+export class UserService {
 
   currentUser= signal<UserDTO | null> (this.getSavedUser());
 

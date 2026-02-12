@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserServiceService } from '../../services/user.service.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +12,7 @@ import { UserServiceService } from '../../services/user.service.service';
 export class HeaderComponent {
 
   private router=inject(Router);
-  userService=inject(UserServiceService);
+  userService=inject(UserService);
   
   conection(){
     this.router.navigate(['/connection']);

@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { OrderService } from '../../services/order.service';
 import { OrderDTO } from '../../models/order.model';
 import { CommonModule } from '@angular/common';
-import { UserServiceService } from '../../services/user.service.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-order-history',
@@ -13,7 +13,7 @@ import { UserServiceService } from '../../services/user.service.service';
 })
 export class OrderHistoryComponent {
   private orderService=inject(OrderService);
-  userService=inject(UserServiceService);
+  userService=inject(UserService);
 
   ordersHistory:OrderDTO[]=[]
 

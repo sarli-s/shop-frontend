@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormGroup, ReactiveFormsModule,FormControl, Validators, AbstractControl} from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { UserServiceService } from '../../../services/user.service.service';
+import { UserService } from '../../../services/user.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,7 +15,7 @@ export class LoginComponent {
 
   @Output() switchMode=new EventEmitter<void>();
 
-  private userService=inject(UserServiceService);
+  private userService=inject(UserService);
   private router=inject(Router);
   
 
