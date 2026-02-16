@@ -8,8 +8,6 @@ export interface CartItem {
         color?: string;       // סימן השאלה אומר שזה אופציונלי (כי בהתחלה אין צבע)
         customText?: string;
         quantity?: number;    // רלוונטי בעיקר לסל
-        popularColor?: string; // נתוני ברירת המחדל מהקטלוג
-        topText?: string;
 }
 
 export interface ProductDTO{
@@ -20,11 +18,10 @@ export interface ProductDTO{
         Description: string;
         CategoryDTO:CategoryDTO;
 
-        color?: string;      
-        customText?: string;
-        quantity?: number;    
-        popularColor?: string; 
-        topText?: string;
+        colors: string[];      
+        defultColor: string;
+        topText: string;
+
 }
 
 export interface CategoryDTO{

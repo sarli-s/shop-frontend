@@ -10,7 +10,7 @@ export const routes: Routes = [
 // 1. כשהאתר עולה (נתיב ריק) - תציג את עמוד הבית
   { path: '', component: HomeComponent }, 
 
-  { path: 'products', component: ProductCardComponent },
+  {path: 'products/:id', component: ProductCardComponent },
   {path: 'home', component: HomeComponent },
   {path: 'connection', component: ConnectionComponent },
   {path: 'order-history', component: OrderHistoryComponent},

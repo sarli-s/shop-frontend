@@ -1,3 +1,10 @@
 <p>home works!</p>
 <br>
 <p>loading...</p>
+
+<button (click)="goToDetails(1)">Go to Product 1 Details</button>
+<button (click)="goToDetails(2)">Go to Product 2 Details</button>
+
+<button *ngIf="isAdmin" class="add-new-btn" (click)="goToAddNewProduct()">
+    הוסף מוצר חדש
+</button>
