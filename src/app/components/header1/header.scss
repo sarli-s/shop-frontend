@@ -58,7 +58,103 @@ $light-bg: #f8fafc;
   }
 }
 
-/* --- אזור כפתורי הפעולה (שמאל) --- */
+/* --- סרגל חיפוש סמנטי --- */
+.semantic-search-wrapper {
+  position: relative;
+  flex: 1;
+  max-width: 320px;
+  margin: 0 1.5rem;
+}
+
+.search-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .search-icon {
+    position: absolute;
+    right: 0.9rem;
+    color: #94a3b8;
+    font-size: 0.95rem;
+    pointer-events: none;
+  }
+
+  .clear-icon {
+    position: absolute;
+    left: 0.9rem;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    cursor: pointer;
+    &:hover { color: $primary-cyan; }
+  }
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.6rem 2.2rem 0.6rem 2rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 50px;
+  font-size: 0.88rem;
+  background: $light-bg;
+  color: $dark-blue;
+  transition: border-color 0.25s;
+  outline: none;
+
+  &:focus {
+    border-color: $primary-cyan;
+    box-shadow: 0 0 0 3px rgba(97, 198, 203, 0.15);
+  }
+}
+
+.search-results {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  z-index: 1100;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+  direction: rtl;
+  transition: background 0.2s;
+  gap: 0.5rem;
+
+  &:hover { background: rgba(97, 198, 203, 0.08); }
+  &:not(:last-child) { border-bottom: 1px solid #f1f5f9; }
+
+  .result-name {
+    flex: 1;
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: $dark-blue;
+  }
+
+  .result-price {
+    font-size: 0.85rem;
+    color: #475569;
+  }
+
+  .result-score {
+    font-size: 0.75rem;
+    color: $primary-cyan;
+    background: rgba(97, 198, 203, 0.12);
+    padding: 2px 7px;
+    border-radius: 20px;
+    font-weight: 700;
+  }
+}
+
+/* --- סרגל כפתורי הפעולה (שמאל) --- */
 .actions {
   display: flex;
   align-items: center;

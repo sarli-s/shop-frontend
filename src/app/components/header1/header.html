@@ -13,6 +13,34 @@
     <a routerLink="/connect-us" routerLinkActive="active">צור קשר</a>
   </div>
 
+  <div class="semantic-search-wrapper">
+    <div class="search-input-container">
+      <i class="pi pi-search search-icon"></i>
+      <input
+        [formControl]="searchControl"
+        (focus)="showResults = searchResults.length > 0"
+        (blur)="onSearchBlur()"
+        class="search-input"
+        placeholder="חיפוש חכם... (למשל: מתנה לאוהב טבע)"
+        dir="rtl"
+      />
+      @if (searchControl.value) {
+        <i class="pi pi-times clear-icon" (mousedown)="clearSearch()"></i>
+      }
+    </div>
+    @if (showResults && searchResults.length > 0) {
+      <div class="search-results">
+        @for (item of searchResults; track item.id) {
+          <div class="search-result-item" (mousedown)="goToProduct(item.id)">
+            <span class="result-name">{{ item.name }}</span>
+            <span class="result-price">₪{{ item.price }}</span>
+            <span class="result-score">{{ (item.score * 100).toFixed(0) }}%</span>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
   <div class="actions">
     <div class="profile-wrapper">
       <div class="profile-btn">

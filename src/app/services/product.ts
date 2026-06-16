@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { PageResponse, ProductDTO } from '../models/product.model';
+import { PageResponse, ProductDTO, SemanticSearchResponse } from '../models/product.model';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -94,5 +94,11 @@ deleteProduct(productId: number): Observable<any> {
   // שליפת מוצר לפי ID
 getProductById(id: number): Observable<ProductDTO> {
   return this.http.get<ProductDTO>(`${this.apiUrl}/${id}`);
+}
+
+semanticSearch(query: string, topK = 5): Observable<SemanticSearchResponse> {
+  return this.http.get<SemanticSearchResponse>(`${environment.apiUrl}/search`, {
+    params: { query, topK }
+  });
 }
 }

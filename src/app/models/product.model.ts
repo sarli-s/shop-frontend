@@ -1,5 +1,16 @@
 import { Category } from "./category";
 
+export interface SemanticSearchResult {
+  id: string;
+  name: string;
+  price: number;
+  score: number;
+}
+
+export interface SemanticSearchResponse {
+  results: SemanticSearchResult[];
+}
+
 
 // export interface PageResponse<T> {
 //         data: T[];

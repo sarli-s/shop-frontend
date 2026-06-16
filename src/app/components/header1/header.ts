@@ -1,24 +1,36 @@
-import { Component, inject, OnInit, computed } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, computed, OnDestroy, HostListener, ElementRef } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { Cart } from '../../services/cart';
 import { UserService } from '../../services/user.service';
+import { ProductService } from '../../services/product';
+import { SemanticSearchResult } from '../../models/product.model';
+import { debounceTime, distinctUntilChanged, filter, switchMap, Subject, takeUntil } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, MenuModule, RouterLink, RouterLinkActive, ButtonModule],
+  imports: [CommonModule, ReactiveFormsModule, MenuModule, RouterLink, RouterLinkActive, ButtonModule],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
-export class Header implements OnInit {
+export class Header implements OnInit, OnDestroy {
   private router = inject(Router);
-  public userService = inject(UserService); 
+  public userService = inject(UserService);
   public cart = inject(Cart);
+  private productService = inject(ProductService);
+
+  searchControl = new FormControl('');
+  searchResults: SemanticSearchResult[] = [];
+  showResults = false;
+  private destroy$ = new Subject<void>();
+  private el = inject(ElementRef);
+  private cdr = inject(ChangeDetectorRef);
 
   // שימוש ב-computed כדי שהתפריט יתעדכן אוטומטית כשהמשתמש מתחבר/מתנתק
   profileMenuItems = computed<MenuItem[]>(() => {
@@ -106,7 +118,44 @@ export class Header implements OnInit {
   }
 
   ngOnInit() {
-    // אין צורך לאתחל כאן את profileMenuItems כי הוא מוגדר כ-computed
+    this.searchControl.valueChanges.pipe(
+      debounceTime(400),
+      distinctUntilChanged(),
+      filter(q => !!q && q.length > 2),
+      switchMap(q => this.productService.semanticSearch(q!)),
+      takeUntil(this.destroy$)
+    ).subscribe(res => {
+      this.searchResults = res.results;
+      this.showResults = true;
+      this.cdr.detectChanges();
+    });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  @HostListener('document:click', ['$event.target'])
+  onDocumentClick(target: EventTarget | null) {
+    if (!this.el.nativeElement.contains(target)) this.showResults = false;
+  }
+
+  onSearchBlur() {
+    setTimeout(() => { this.showResults = false; }, 150);
+  }
+
+  goToProduct(id: string) {
+    this.showResults = false;
+    this.searchControl.setValue('', { emitEvent: false });
+    this.searchResults = [];
+    this.router.navigate(['/products', id]);
+  }
+
+  clearSearch() {
+    this.showResults = false;
+    this.searchResults = [];
+    this.searchControl.setValue('', { emitEvent: false });
   }
 
   addNewProduct() {
