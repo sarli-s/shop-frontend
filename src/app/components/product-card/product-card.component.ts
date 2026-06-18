@@ -96,9 +96,13 @@ loadProduct() {
       this.productName = product.productName;
       this.productPrice = product.price;
 
-      this.productImage = product.imageUrl
-        ? environment.imagesBaseUrl + product.imageUrl.replace(/^.*[\\\/]/, '')
-        : 'assets/images/default-product.png';
+
+      if (product.imageUrl) {
+        // מחברים את שם התיקייה עם שם הקובץ מה-DB
+        this.productImage = 'productsImages/' + product.imageUrl;
+      } else {
+        this.productImage = 'assets/images/default-product.png';
+      }
       
       // this.productImage = product.imageUrl ?? 'assets/images/default-product.png';
       this.productDescription = product.description ?? 'אין תיאור זמין';
@@ -155,11 +159,12 @@ loadProduct() {
         productId: this.currentProduct.productId,
         name: this.productName,
         price: this.productPrice,
-        imageUrl: this.productImage.replace(/^.*[\\\/]/, ''),
+
+        imageUrl: `${environment.imgPath}/this.productImage`,
         color: this.selectedColor,
         customText: this.userText || 'ללא כיתוב'
       };
-      console.log(customProduct.imageUrl)
+
       this.cartService.addToCart(customProduct);
 
       Swal.fire({
@@ -202,12 +207,14 @@ saveProduct() {
     productName: this.productName,
     price: this.productPrice,
     description: this.productDescription,
-    imageUrl: this.productImage.replace(/^.*[\\\/]/, ''),
+
+    imageUrl: this.productImage,
     colors: [...this.colors],
     toptext: this.currentProduct?.toptext || 'באהבה גדולה',
     // כאן התיקון הקריטי עבור ה-C#
     category: categoryForServer as any
   };
+
   // 3. שליחה לשרת
   if (this.productId === 0) {
     this.productService.addProduct(productData).subscribe({
@@ -221,7 +228,7 @@ saveProduct() {
     this.productService.updateProduct(this.productId, productData).subscribe({
       next: (res) => {
         this.currentProduct = res;
-        this.productImage = environment.imagesBaseUrl + productData.imageUrl;
+        this.productImage = environment.imgPath + productData.imageUrl;
         this.isEditing = false;
         Swal.fire('עודכן!', 'השינויים נשמרו בהצלחה', 'success');
       },
@@ -269,7 +276,7 @@ saveProduct() {
     if (!file) return;
     this.productService.uploadImage(file).subscribe({
       next: (fileName) => {
-        this.productImage = environment.imagesBaseUrl + fileName;
+        this.productImage = environment.imgPath + fileName;
         this.cdr.detectChanges();
       },
       error: () => Swal.fire('שגיאה', 'העלאת התמונה נכשלה', 'error')

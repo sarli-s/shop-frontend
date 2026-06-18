@@ -18,7 +18,7 @@ import { environment } from '../../../environments/environment';
 export class ProductCardMin {
   private router = inject(Router);
   private cartService = inject(Cart);
-  imgBase = environment.imagesBaseUrl;
+  imgBase = environment.imgPath;
 
   @Input() isAdmin: boolean = false;
   @Input() productData!: ProductDTO;
