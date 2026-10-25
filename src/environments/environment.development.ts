@@ -5,7 +5,7 @@
 // };
 export const environment = {
     production: false,
-    apiUrl: 'https://localhost:44324/api',
+    apiUrl: 'http://localhost:5222/api',
     imgPath: 'http://localhost:4200/productsImages/'
 
 };

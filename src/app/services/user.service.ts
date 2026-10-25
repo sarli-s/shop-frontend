@@ -1,7 +1,7 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { UserDTO } from '../models/user.model';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -15,7 +15,7 @@ export class UserService {
   currentUser = signal<UserDTO | null>(this.getSavedUser());
 
   // מחושב - תמיד יתעדכן כש-currentUser משתנה
-  isAdmin = computed(() => this.currentUser()?.Role === 'admin' || (this.currentUser() as any)?.role === 'admin');
+  isAdmin = computed(() => (this.currentUser()?.Role ?? (this.currentUser() as any)?.role)?.toLowerCase() === 'admin');
 
   constructor() { }
 
@@ -23,8 +23,8 @@ export class UserService {
    * הרשמה
    */
   register(userData: UserDTO, password: string): Observable<UserDTO> {
-    const url = `${this.apiUrl}?password=${encodeURIComponent(password)}`;
-    return this.http.post<UserDTO>(url, userData).pipe(
+    // השרת מצפה לסיסמה בתוך גוף הבקשה (UserWithPasswordDTO)
+    return this.http.post<UserDTO>(this.apiUrl, { ...userData, UserPassword: password }).pipe(
       tap(user => this.saveToLocal(user))
     );
   }
@@ -41,7 +41,9 @@ export class UserService {
   login(email: string, password: string): Observable<UserDTO | null> {
     const loginData = { userEmail: email, userPassword: password };
 
-    return this.http.post<UserDTO>(`${this.apiUrl}/login`, loginData).pipe(
+    // השרת מחזיר { user, token } (או 204 ריק כשהפרטים שגויים)
+    return this.http.post<{ user: UserDTO, token: string } | null>(`${this.apiUrl}/login`, loginData).pipe(
+      map(res => res?.user ?? null),
       tap(user => {
         if (user) this.saveToLocal(user);
       })
@@ -52,9 +54,8 @@ export class UserService {
    * עדכון פרטים - שינוי קטן כאן: שומרים את ה-Response מהשרת
    */
   updateUser(id: number, userData: UserDTO, password: string): Observable<UserDTO> {
-    const url = `${this.apiUrl}/${id}?password=${encodeURIComponent(password)}`;
-    // שיניתי מ-any ל-Observable<UserDTO> כדי לקבל את המשתמש המעודכן חזרה
-    return this.http.put<UserDTO>(url, userData).pipe(
+    // השרת מצפה לסיסמה בתוך גוף הבקשה (UserWithPasswordDTO)
+    return this.http.put<UserDTO>(`${this.apiUrl}/${id}`, { ...userData, UserPassword: password }).pipe(
       tap(updatedUserFromServer => {
         // שומרים את מה שחזר מהשרת - זה הכי בטוח
         const dataToSave = updatedUserFromServer || userData;
@@ -68,6 +69,8 @@ export class UserService {
   }
 
   logout() {
+    // מוחק את עוגיית ה-jwt בשרת
+    this.http.post(`${this.apiUrl}/logout`, {}).subscribe({ error: () => {} });
     this.currentUser.set(null);
     localStorage.removeItem('loggedUser');
   }

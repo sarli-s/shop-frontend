@@ -31,6 +31,13 @@ export class OrderService {
   }
 
   /**
+   * שליפת ההזמנות של משתמש מסוים (ללקוח שאינו מנהל)
+   */
+  getOrdersByUser(userId: number): Observable<OrderDTO[]> {
+    return this.http.get<OrderDTO[]>(`${this.apiUrl}/user/${userId}`);
+  }
+
+  /**
    * שליפת הזמנה ספציפית לפי מזהה מהשרת
    */
   getOrderById(orderId: number): Observable<OrderDTO> {
