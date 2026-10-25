@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -52,6 +53,13 @@ updateQuantity(product: any, delta: number) {
 
   getItems() {
     return this.items;
+  }
+
+  // כתובת התמונה של פריט בסל. בסל נשמר רק שם הקובץ (למשל bag.jpg),
+  // אבל פריטים ישנים נשמרו עם נתיב - לכן לוקחים רק את החלק האחרון
+  imageSrc(item: any): string {
+    const fileName = (item?.imageUrl ?? '').split('/').pop();
+    return fileName ? environment.imgPath + fileName : '';
   }
 
   private saveToLocalStorage() {

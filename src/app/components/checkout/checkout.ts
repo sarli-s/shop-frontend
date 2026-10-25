@@ -33,7 +33,7 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./checkout.scss']
 })
 export class CheckoutComponent implements OnInit {
-  private cartService = inject(Cart);
+  cartService = inject(Cart);
   private orderService = inject(OrderService);
   private router = inject(Router);
 

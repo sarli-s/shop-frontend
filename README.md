@@ -1,59 +1,95 @@
-# MyPro
+# 🎁 Shop Frontend
+### **Personalized Gift Store | Angular 21 | PrimeNG**
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.3.
+---
 
-## Development server
+## 📖 Overview
+The web client of an online store for personalized gifts. Customers browse products, choose a color and a personal text for each item, and place orders. Admins manage products and order statuses. An AI assistant helps customers find the right gift.
 
-To start a local development server, run:
+This frontend is one of three parts of the project:
 
-```bash
-ng serve
+| Part | Repository | Tech |
+|---|---|---|
+| 🖥️ Frontend (this repo) | [sarli-s/shop-frontend](https://github.com/sarli-s/shop-frontend) | Angular 21, PrimeNG |
+| ⚙️ Backend API | [sarli-s/APIproject](https://github.com/sarli-s/APIproject) | .NET 9, EF Core, SQL Server, Redis, Kafka |
+| 🤖 AI Service | [sarli-s/AI-Services-Chat-and-Semantics](https://github.com/sarli-s/AI-Services-Chat-and-Semantics) | Python, FastAPI, OpenAI |
+
+---
+
+## ✨ Features
+
+**Customers**
+- 🛍️ Product catalog with filtering (name, price, category) and pagination
+- 🎨 Personalization per item: color and custom text
+- 🛒 Shopping cart saved in the browser (`localStorage`)
+- 💳 Checkout and order history
+- 👤 Registration with live password-strength check, login and profile editing
+- 🤖 AI chat assistant and semantic product search
+
+**Admins**
+- ➕ Add, edit and delete products
+- 📦 View all orders and advance their status (packing → ready → shipped → at pickup point → arrived)
+
+---
+
+## 🔐 Authentication
+The backend issues a **JWT in an HttpOnly cookie** on login. An HTTP interceptor in [app.config.ts](src/app/app.config.ts) sends every request with `withCredentials: true`, so the cookie is attached automatically. Admin-only screens are shown according to the user's role.
+
+---
+
+## 📁 Project Structure
+
+```text
+src/
+├── app/
+│   ├── components/      # Pages and UI parts (products, cart, checkout, orders, profile, chat...)
+│   ├── services/        # HTTP services (products, users, orders, categories, chat) and the cart
+│   ├── models/          # TypeScript interfaces matching the backend DTOs
+│   ├── app.routes.ts    # Routing
+│   └── app.config.ts    # Providers: router, HttpClient + credentials interceptor, PrimeNG theme
+├── environments/        # API address and product-image path
+public/
+├── productsImages/      # Product images (file names are stored in the database)
+└── homePictures/        # Home page images
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## 🚀 Getting Started
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Prerequisites
+- **Node.js 22** and **Angular CLI** (`npm install -g @angular/cli`)
+- The **backend API** running on `http://localhost:5222` — see [APIproject](https://github.com/sarli-s/APIproject)
+- For the chat and search: the **AI service** running on port `8001` — see [AI-Services-Chat-and-Semantics](https://github.com/sarli-s/AI-Services-Chat-and-Semantics)
 
+### Run
 ```bash
-ng generate component component-name
+npm install
+npm start          # same as: ng serve
 ```
+Open `http://localhost:4200`.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+The API address is set in [src/environments/environment.development.ts](src/environments/environment.development.ts) (`apiUrl`).
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
+### Build
 ```bash
 ng build
 ```
+Output goes to `dist/`.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+---
 
-## Running unit tests
+## 🛠️ Tech Stack
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+| Category | Technology |
+|---|---|
+| **Framework** | Angular 21 (standalone components, signals) |
+| **UI** | PrimeNG + PrimeFlex + PrimeIcons |
+| **Alerts** | SweetAlert2 |
+| **HTTP** | Angular HttpClient + RxJS |
+| **Styling** | SCSS |
 
-```bash
-ng test
-```
+---
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 👩‍💻 Authors
+Built together by **Ayala** ([AyalaOnGit](https://github.com/AyalaOnGit)) and **Sarli** ([sarli-s](https://github.com/sarli-s)) — 2026.

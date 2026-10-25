@@ -160,7 +160,7 @@ loadProduct() {
         name: this.productName,
         price: this.productPrice,
 
-        imageUrl: `${environment.imgPath}/this.productImage`,
+        imageUrl: this.currentProduct.imageUrl, // רק שם הקובץ, כמו בכרטיס המוצר הקטן
         color: this.selectedColor,
         customText: this.userText || 'ללא כיתוב'
       };
