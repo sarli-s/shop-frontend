@@ -1,4 +1,4 @@
-<img width="1742" height="972" alt="צילום מסך 2026-11-24 155020" src="https://github.com/user-attachments/assets/d3399c08-5e75-44f1-b16f-2b82093858b9" /># 🎁 Shop Frontend
+# 🎁 Shop Frontend
 ### **Personalized Gift Store | Angular 21 | PrimeNG**
 
 ---
