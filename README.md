@@ -1,4 +1,4 @@
-# 🎁 Shop Frontend
+<img width="1742" height="972" alt="צילום מסך 2026-11-24 155020" src="https://github.com/user-attachments/assets/d3399c08-5e75-44f1-b16f-2b82093858b9" /># 🎁 Shop Frontend
 ### **Personalized Gift Store | Angular 21 | PrimeNG**
 
 ---
@@ -13,6 +13,17 @@ This frontend is one of three parts of the project:
 | 🖥️ Frontend (this repo) | [sarli-s/shop-frontend](https://github.com/sarli-s/shop-frontend) | Angular 21, PrimeNG |
 | ⚙️ Backend API | [sarli-s/APIproject](https://github.com/sarli-s/APIproject) | .NET 9, EF Core, SQL Server, Redis, Kafka |
 | 🤖 AI Service | [sarli-s/AI-Services-Chat-and-Semantics](https://github.com/sarli-s/AI-Services-Chat-and-Semantics) | Python, FastAPI, OpenAI |
+
+## Screenshots
+
+**Product catalog** – browsing with price and category filters
+<img width="1742" height="972" alt="צילום מסך 2026-11-24 155020" src="https://github.com/user-attachments/assets/acbdf14b-843d-4c7a-8a35-36dfbea257a2" />
+
+**Semantic search** – finds relevant products by meaning, not keywords
+<img width="1772" height="961" alt="צילום מסך 2026-11-24 154547" src="https://github.com/user-attachments/assets/89843bea-c72f-4c35-a3b8-5028394c6c9a" />
+
+**AI Shopping Assistant** – chat grounded in live catalog data
+<img width="1436" height="796" alt="צילום מסך 2026-11-24 155506" src="https://github.com/user-attachments/assets/cb50f4ee-6c9f-4c9e-8a3d-a85febf97da4" />
 
 ---
 
